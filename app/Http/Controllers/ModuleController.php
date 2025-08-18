@@ -36,6 +36,8 @@ class ModuleController extends Controller
         $data['link_quiz'] = json_encode($request->input('link_quiz', []));
         $data['link_video'] = json_encode($request->input('link_video', []));
         Module::create($data);
+        // Set success message for SweetAlert toast
+        session()->flash('success', 'Module created successfully!');
         return redirect()->route('modules.index');
     }
 
@@ -68,12 +70,16 @@ class ModuleController extends Controller
         $data['link_quiz'] = json_encode($request->input('link_quiz', []));
         $data['link_video'] = json_encode($request->input('link_video', []));
         $module->update($data);
+        // Set success message for SweetAlert toast
+        session()->flash('success', 'Module updated successfully!');
         return redirect()->route('modules.index');
     }
 
     public function destroy(Module $module)
     {
         $module->delete();
+        // Set success message for SweetAlert toast
+        session()->flash('success', 'Module deleted successfully!');
         return redirect()->route('modules.index');
     }
 }
