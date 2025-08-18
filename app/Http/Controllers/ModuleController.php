@@ -9,12 +9,12 @@ class ModuleController extends Controller
     public function index()
     {
         $modules = Module::all();
-        return view('admin.modules', compact('modules'));
+        return view('admin.module.index', compact('modules'));
     }
 
     public function create()
     {
-        return view('admin.createmodule');
+        return view('admin.module.create');
     }
 
     public function store(Request $request)
@@ -43,12 +43,12 @@ class ModuleController extends Controller
 
     public function show(Module $module)
     {
-        return view('admin.showmodule', compact('module'));
+        return view('admin.module.show', compact('module'));
     }
 
     public function edit(Module $module)
     {
-        return view('admin.editmodule', compact('module'));
+        return view('admin.module.edit', compact('module'));
     }
 
     public function update(Request $request, Module $module)

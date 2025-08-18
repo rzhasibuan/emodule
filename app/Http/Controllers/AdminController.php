@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     public function index(){
-        // dd(Auth::check());
-        return view('admin/dashboard');
+        $users = \App\Models\User::all();
+        $modules = \App\Models\Module::all();
+        return view('admin.dashboard', compact('users', 'modules'));
     }
 
     public function users(){

@@ -11,16 +11,16 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- DataTables -->
-    <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{asset("assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css")}}">
+    <link rel="stylesheet" href="{{asset("assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css")}}">
+    <link rel="stylesheet" href="{{asset("assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css")}}">
     {{-- <link rel="stylesheet" href="../assets/plugins/chosen.css"> --}}
 
   <!-- Template CSS -->
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="{{asset("assets/css/style.css")}}">
+  <link rel="stylesheet" href="{{asset("assets/css/components.css")}}">
     <!-- CSS Libraries -->
-<link rel="stylesheet" href="../assets/modules/izitoast/css/iziToast.min.css">
+<link rel="stylesheet" href="{{asset("assets/modules/izitoast/css/iziToast.min.css")}}">
 </head>
 
 <body>
@@ -35,7 +35,7 @@
         </form>
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+            <img alt="image" src="{{asset("assets/img/avatar/avatar-1.png")}}" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <a href="/logout" class="dropdown-item has-icon text-danger">
@@ -55,7 +55,7 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2022 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+          Copyright &copy; 2025 green module
         </div>
         <div class="footer-right">
           2.3.0
@@ -72,34 +72,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="../assets/js/stisla.js"></script> --}}
   <!-- General JS Scripts -->
-  <script src="../assets/modules/jquery.min.js"></script>
-  <script src="../assets/modules/popper.js"></script>
-  <script src="../assets/modules/tooltip.js"></script>
-  <script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
-  <script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-  <script src="../assets/modules/moment.min.js"></script>
-  <script src="../assets/js/stisla.js"></script>
+  <script src="{{asset("assets/modules/jquery.min.js")}}"></script>
+  <script src="{{asset("assets/modules/popper.js")}}"></script>
+  <script src="{{asset("assets/modules/popper.js")}}"></script>
+  <script src="{{asset("assets/modules/bootstrap/js/bootstrap.min.js")}}"></script>
+  <script src="{{asset("assets/modules/nicescroll/jquery.nicescroll.min.js")}}"></script>
+  <script src="{{asset("assets/modules/moment.min.js")}}"></script>
+  <script src="{{asset("assets/js/stisla.js")}}"></script>
 
   <!-- DataTables  & Plugins -->
-<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="{{asset("assets/plugins/datatables/jquery.dataTables.min.js")}}"></script>
+<script src="{{asset("assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js")}}"></script>
+<script src="{{asset("assets/plugins/datatables-responsive/js/dataTables.responsive.min.js")}}"></script>
+<script src="{{asset("assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js")}}"></script>
+<script src="{{asset("assets/plugins/datatables-buttons/js/dataTables.buttons.min.js")}}"></script>
+<script src="{{asset("assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js")}}"></script>
+<script src="{{asset("assets/plugins/datatables-buttons/js/buttons.html5.min.js")}}"></script>
+<script src="{{asset("assets/plugins/datatables-buttons/js/buttons.print.min.js")}}"></script>
+<script src="{{asset("assets/plugins/datatables-buttons/js/buttons.colVis.min.js")}}"></script>
 
   <!-- Template JS File -->
-  <script src="../assets/js/scripts.js"></script>
-  <script src="../assets/js/custom.js"></script>
+  <script src="{{asset("assets/js/scripts.js")}}"></script>
+  <script src="{{asset("assets/js/custom.js")}}"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
    <!-- JS Libraies -->
-   <script src="../assets/modules/izitoast/js/iziToast.min.js"></script>
+   <script src="{{asset("assets/modules/izitoast/js/iziToast.min.js")}}"></script>
 
    <!-- Page Specific JS File -->
-   <script src="../assets/js/page/modules-toastr.js"></script> <!-- Page Specific JS File -->
+   <script src="{{asset("assets/js/page/modules-toastr.js")}}"></script> <!-- Page Specific JS File -->
   {{-- <script src="../assets/js/page/index-0.js"></script> --}}
 
   <script>

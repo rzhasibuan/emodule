@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
 @section('container')
-    <div class="section-header">
+    <div class="section-header d-flex justify-content-between align-items-center">
         <h1>Module Details</h1>
-        <a href="{{ route('modules.index') }}" class="btn btn-secondary">Back to List</a>
+        <a href="{{ route('modules.index') }}" class="btn btn-primary">Back to List</a>
     </div>
     <div class="card">
         <div class="card-body">
