@@ -11,10 +11,9 @@ class AdminController extends Controller
         // dd(Auth::check());
         return view('admin/dashboard');
     }
-    
+
     public function users(){
         $datas = User::all();
-        // dd($datas);
         return view('admin/users',compact('datas'));
     }
 
@@ -22,7 +21,7 @@ class AdminController extends Controller
         if(Auth::user()->id_level == '1'){
             $data = User::findOrFail($id_users);
             $deleted = $data->delete();
-    
+
             if ($deleted) {
                 return redirect()
                     ->route('users')
@@ -64,7 +63,7 @@ class AdminController extends Controller
     public function change_user(Request $request,$id_users){
         if(Auth::user()->id_level == '1'){
             // dd($request);
-            
+
             $data = User::findOrFail($id_users);
             if($request->password == NULL){
                 $data->name = $request->name;

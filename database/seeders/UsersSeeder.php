@@ -16,10 +16,10 @@ class UsersSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'Dhani Set',
+            'name' => 'admin',
             'id_level' => '1',
-            'email' => 'email@email.com',
-            'password' => bcrypt('123456'),
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('password'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);

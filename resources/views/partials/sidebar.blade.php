@@ -9,6 +9,7 @@
         <ul class="sidebar-menu">
             <li class=""><a class="nav-link" href="/"><i class="fas fa-fire"></i> <span>Dashboard</span></a></li>
             <li class=""><a class="nav-link" href="/users"><i class="fas fa-users"></i> <span>Users</span></a></li>
+            <li class=""><a class="nav-link" href="{{route("modules.index")}}"><i class="fas fa-archive"></i> <span>Data module</span></a></li>
         </ul>
     </aside>
   </div>
