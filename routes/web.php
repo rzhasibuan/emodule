@@ -16,6 +16,8 @@ use App\Http\Controllers\ModuleController;
 |
 */
 
+Route::get('/', [\App\Http\Controllers\WelcomeController::class, "index"])->name('welcome');
+
 Route::get('/login',[LoginController::class, 'index'])->name('login');
 
 Route::post('/login',[LoginController::class, 'login_process'])->name('login_process');
