@@ -38,7 +38,7 @@
             <img alt="image" src="{{asset("assets/img/avatar/avatar-1.png")}}" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
-              <a href="/logout" class="dropdown-item has-icon text-danger">
+              <a href="{{route("logout")}}" class="dropdown-item has-icon text-danger">
                 <i class="fas fa-sign-out-alt"></i> Logout
               </a>
             </div>
@@ -55,7 +55,7 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2025 green module
+          Copyright &copy; 2025 {{env("APP_NAME") ?? ""}}. All rights reserved.
         </div>
         <div class="footer-right">
           2.3.0
@@ -157,7 +157,7 @@
               })
               .then((willDelete) => {
                   if (willDelete) {
-                      window.location = "/delete/"+users_id+""
+                      window.location = "/admin/delete/"+users_id+""
                   }
               });
     })

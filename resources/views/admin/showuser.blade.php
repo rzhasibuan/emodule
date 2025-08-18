@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="/changeuser/{{ $data->id_users }}">
+                    <form method="POST" action="{{route("change_user", $data->id_users)}}">
                         @csrf
                         <div class="col-md-6">
                             <div class="form-group">

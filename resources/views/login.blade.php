@@ -32,7 +32,7 @@
             <div class="card card-primary">
               <div class="card-header"><h4>Login</h4></div>
               <div class="card-body">
-                  <form action="/loginprocess" method="POST">
+                  <form action="{{route("login_process")}}" method="POST">
                 @csrf
                   <div class="form-group">
                     <label for="email">Email</label>
@@ -60,11 +60,8 @@
 
               </div>
             </div>
-            <div class="mt-5 text-muted text-center">
-              Don't have an account? <a href="/signup">Create One</a>
-            </div>
             <div class="simple-footer">
-              Copyright &copy; Stisla 2022
+              Copyright &copy; green module 2025
             </div>
           </div>
         </div>
@@ -111,7 +108,7 @@
 <script>
     $(document).ready(function(){
         $('#checkbox').on('change', function(){
-            $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password"); 
+            $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password");
         });
     });
 </script>

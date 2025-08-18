@@ -17,35 +17,19 @@ use App\Http\Controllers\ModuleController;
 */
 
 Route::get('/login',[LoginController::class, 'index'])->name('login');
-Route::get('/signup_process', function () {
-    return redirect('/login');
-});
 
-Route::post('/loginprocess',[LoginController::class, 'login_process'])->name('login_process');
+Route::post('/login',[LoginController::class, 'login_process'])->name('login_process');
 
 Route::get('/logout',[LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
+    Route::get('/delete/{id_users}', [AdminController::class, 'delete'])->name('delete');
+    Route::get('/show/{id_users}', [AdminController::class, 'show_user'])->name('show_user');
+    Route::post('/update/{id_users}', [AdminController::class, 'change_user'])->name('change_user');
 
-Route::get('/', [AdminController::class, 'index'])->name('dashboard')->middleware('auth');
-
-Route::get('/users',[AdminController::class, 'users'])->name('users')->middleware('auth');
-
-Route::get('/delete/{id_users}',[AdminController::class, 'delete'])->name('delete')->middleware('auth');
-
-Route::get('/showuser/{id_users}',[AdminController::class, 'show_user'])->name('show_user')->middleware('auth');
-Route::post('/changeuser/{id_users}',[AdminController::class, 'change_user'])->name('change_user')->middleware('auth');
-
-
-Route::get('/signup',[LoginController::class, 'register'])->name('register');
-
-Route::get('/signup_process', function () {
-    return redirect('/signup');
-});
-
-Route::post('/signupprocess',[LoginController::class, 'register_process'])->name('signup_process');
-
-Route::middleware('auth')->group(function () {
     Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
     Route::get('/modules/create', [ModuleController::class, 'create'])->name('modules.create');
     Route::post('/modules', [ModuleController::class, 'store'])->name('modules.store');

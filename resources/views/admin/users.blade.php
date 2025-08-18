@@ -12,7 +12,7 @@
                 <th>User Level</th>
                 <th>Email</th>
                 <th>Last Update</th>
-                <?php 
+                <?php
                 if(Auth::user()->id_level == '1'){
                     echo "<th>Action </th>";
                 }
@@ -27,17 +27,17 @@
                 <td>{{ ($data->id_level === 1) ? 'Admin' : 'User' }}</td>
                 <td>{{ $data->email }}</td>
                 <td>{{ $data->updated_at->format('d M Y') }}</td>
-                <?php 
+                <?php
                 if(Auth::user()->id_level == '1'){
                 ?>
                     <td>
-                        <a href='/showuser/{{ $data->id_users }}' class='btn btn-sm btn-primary' ><i class='fas fa-edit'></i></a>
+                        <a href='{{route("show_user", $data->id_users)}}' class='btn btn-sm btn-primary' ><i class='fas fa-edit'></i></a>
                         <a href='#' class='btn btn-sm btn-danger delete' data-id='{{ $data->id_users }}' data-name='{{ $data->name }}'><i class="fas fa-trash"></i></a>
                     </td>
                 <?php ;} ?>
             </tr>
             @endforeach
-            
+
         </tbody>
         </table>
 @endsection
