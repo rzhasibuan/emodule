@@ -33,6 +33,44 @@
             <section class="lg:col-span-9">
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-4">
                     <div id="viewerArea"><!-- Flipbook akan disuntik di sini --></div>
+                    <div class="mt-6">
+                        <h2 class="text-lg font-semibold mb-2">Quiz Links</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <a href="https://quiz1.example.com" target="_blank" class="flex flex-col items-center p-4 bg-blue-100 dark:bg-blue-900 rounded-xl shadow hover:scale-105 transition-transform cursor-pointer">
+                                <div class="bg-blue-500 dark:bg-blue-700 text-white rounded-full p-3 mb-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><!-- quiz icon --></svg>
+                                </div>
+                                <span class="font-semibold">Quiz 1</span>
+                                <span class="text-xs text-blue-700 dark:text-blue-200 mt-1">Take Quiz</span>
+                            </a>
+                            <a href="https://quiz2.example.com" target="_blank" class="flex flex-col items-center p-4 bg-blue-100 dark:bg-blue-900 rounded-xl shadow hover:scale-105 transition-transform cursor-pointer">
+                                <div class="bg-blue-500 dark:bg-blue-700 text-white rounded-full p-3 mb-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><!-- quiz icon --></svg>
+                                </div>
+                                <span class="font-semibold">Quiz 2</span>
+                                <span class="text-xs text-blue-700 dark:text-blue-200 mt-1">Take Quiz</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <h2 class="text-lg font-semibold mb-2">Video Links</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <a href="https://youtube.com/watch?v=abc123" target="_blank" class="flex flex-col items-center p-4 bg-red-100 dark:bg-red-900 rounded-xl shadow hover:scale-105 transition-transform cursor-pointer">
+                                <div class="bg-red-500 dark:bg-red-700 text-white rounded-full p-3 mb-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><!-- YouTube icon --></svg>
+                                </div>
+                                <span class="font-semibold">Video 1</span>
+                                <span class="text-xs text-red-700 dark:text-red-200 mt-1">Watch Video</span>
+                            </a>
+                            <a href="https://youtube.com/watch?v=def456" target="_blank" class="flex flex-col items-center p-4 bg-red-100 dark:bg-red-900 rounded-xl shadow hover:scale-105 transition-transform cursor-pointer">
+                                <div class="bg-red-500 dark:bg-red-700 text-white rounded-full p-3 mb-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><!-- YouTube icon --></svg>
+                                </div>
+                                <span class="font-semibold">Video 2</span>
+                                <span class="text-xs text-red-700 dark:text-red-200 mt-1">Watch Video</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>

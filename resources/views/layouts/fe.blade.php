@@ -43,8 +43,19 @@
             <!-- Tengah: Links desktop -->
             <div class="hidden lg:flex items-center gap-1">
                 <a href="index.html" class="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Home</a>
-                <a href="tentang.html" class="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Module</a>
-                <a href="bantuan.html" class="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">How to use?</a>
+                <div class="relative group">
+                    <button class="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1 focus:outline-none">
+                        Module
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="absolute left-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity z-10">
+                        <a href="#" data-source="example-assets/books/intro.pdf" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 module-preview-link">📘 Modul 1: Pengenalan</a>
+                        <a href="#" data-source="example-assets/books/proposal.pdf" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 module-preview-link">📗 Modul 2: Panduan Praktik</a>
+                        <a href="#" data-source="example-assets/books/quickref.pdf" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 module-preview-link">📕 Modul 3: Referensi Cepat</a>
+                        <a href="#" data-source="example-assets/books/case-study.pdf" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 module-preview-link">📙 Modul 4: Studi Kasus</a>
+                    </div>
+                </div>
+                <a href="/how-to-use" class="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">How to use?</a>
             </div>
 
             <!-- Kanan: Cari & Theme -->
@@ -203,6 +214,27 @@
     themeToggle.addEventListener('click', () => {
         const isDark = document.documentElement.classList.contains('dark');
         applyTheme(isDark ? 'light' : 'dark');
+    });
+
+    // ===== Module Dropdown Preview =====
+    document.querySelectorAll('.module-preview-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const pdfPath = link.getAttribute('data-source');
+            if (typeof loadFlipbook === 'function') {
+                loadFlipbook(pdfPath);
+                if (typeof setActiveButton === 'function') {
+                    // Optionally highlight the sidebar button
+                    const moduleList = document.getElementById('moduleList');
+                    if (moduleList) {
+                        const matchBtn = Array.from(moduleList.querySelectorAll('button[data-source]')).find(b => b.dataset.source === pdfPath);
+                        if (matchBtn) setActiveButton(matchBtn);
+                    }
+                }
+                const viewerArea = document.getElementById('viewerArea');
+                if (viewerArea) viewerArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
     });
 </script>
 </body>
