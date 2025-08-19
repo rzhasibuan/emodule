@@ -9,10 +9,12 @@ class Module extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'file',
-        'link_quiz',
-        'link_video',
+        'name', 'file', 'link_quiz', 'link_video',
+    ];
+
+    protected $casts = [
+        'link_quiz'  => 'array',
+        'link_video' => 'array',
     ];
 
 

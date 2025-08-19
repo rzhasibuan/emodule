@@ -40,3 +40,5 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/modules/{module}', [ModuleController::class, 'update'])->name('modules.update');
     Route::delete('/modules/{module}', [ModuleController::class, 'destroy'])->name('modules.destroy');
 });
+
+Route::view('/how-to-use', 'how-to-use')->name('how-to-use');

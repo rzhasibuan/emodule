@@ -16,15 +16,21 @@
                     </div>
 
                     <div id="moduleList" class="space-y-2">
-                        <button class="w-full text-left px-3 py-2 rounded-lg border transition bg-teal-600 text-white"
-                                data-source="example-assets/books/intro.pdf">📘 Modul 1: Pengenalan</button>
-                        <button class="w-full text-left px-3 py-2 rounded-lg border transition bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800"
-                                data-source="example-assets/books/proposal.pdf">📗 Modul 2: Panduan Praktik</button>
-                        <button class="w-full text-left px-3 py-2 rounded-lg border transition bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800"
-                                data-source="example-assets/books/quickref.pdf">📕 Modul 3: Referensi Cepat</button>
-                        <button class="w-full text-left px-3 py-2 rounded-lg border transition bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800"
-                                data-source="example-assets/books/case-study.pdf">📙 Modul 4: Studi Kasus</button>
+                        @forelse($module as $m)
+                            <button
+                                class="w-full text-left px-3 py-2 rounded-lg border transition bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800 module-btn"
+                                data-name="{{ $m->name }}"
+                                data-source="{{ $m->file ? asset('storage/' . $m->file) : '' }}"
+                                data-quizzes='@json($m->link_quiz ?? [])'
+                                data-videos='@json($m->link_video ?? [])'
+                            >
+                                📘 {{ $m->name }}
+                            </button>
+                        @empty
+                            <p class="text-sm text-gray-500">Belum ada modul.</p>
+                        @endforelse
                     </div>
+
                     <p id="noResults" class="hidden text-sm text-gray-500">Tidak ada modul yang cocok.</p>
                 </div>
             </aside>
@@ -32,7 +38,9 @@
             <!-- Viewer tunggal -->
             <section class="lg:col-span-9">
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-4">
-                    <div id="viewerArea"><!-- Flipbook akan disuntik di sini --></div>
+                    <div id="viewerArea">
+                        <!-- Flipbook akan disuntik di sini -->
+                    </div>
                     <div class="mt-6">
                         <h2 class="text-lg font-semibold mb-2">Quiz Links</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
