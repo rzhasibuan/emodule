@@ -33,8 +33,7 @@
                     </svg>
                 </button>
                 <a href="#" class="flex items-center gap-2 font-semibold">
-                    <span class="inline-block w-8 h-8 rounded-xl bg-teal-600"></span>
-                    <span>
+                    <span class="text-teal-600 text-lg">
                         {{env("APP_NAME") ?? "Green Module"}}
                     </span>
                 </a>
@@ -50,12 +49,18 @@
                     </button>
                     <div class="absolute left-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity z-10">
                        @foreach($module as $m)
-                            <a href="#" data-source="{{ asset('storage/' . $m->file) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 module-preview-link">
+                            <a href="#"
+                               data-name="{{ $m->name }}"
+                               data-source="{{ asset('storage/' . $m->file) }}"
+                               data-quizzes='{{ json_encode($m->link_quiz ?: []) }}'
+                               data-videos='{{ json_encode($m->link_video ?: []) }}'
+                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 module-preview-link module-btn">
                                 📘 {{ $m->name }}
                             </a>
                         @endforeach
                     </div>
                 </div>
+                <a href="{{route("login")}}" class="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Login</a>
             </div>
 
             <!-- Kanan: Cari & Theme -->
@@ -91,7 +96,7 @@
 <!-- KONTEN -->
 @yield("content")
 <!-- Scripts -->
-@yield("scripts")
+@stack('scripts')
 <script src="{{asset("dflip/js/libs/jquery.min.js")}}"></script>
 <script src="{{asset("dflip/js/dflip.min.js")}}"></script>
 <script>
