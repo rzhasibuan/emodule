@@ -46,15 +46,52 @@
                         @endif
                     </td>
                     <td>
-                        @foreach(json_decode($module->link_quiz ?? '[]', true) as $link)
-                            <a href="{{ $link }}" target="_blank" class="badge badge-info mb-1">Quiz</a>
+                        @php
+                            // Sudah array (karena casts) atau mungkin string JSON di data lama
+                            $quizRaw = $module->link_quiz;
+                            $quizzes = is_string($quizRaw) ? json_decode($quizRaw, true) : ($quizRaw ?? []);
+                        @endphp
+
+                        @foreach($quizzes as $q)
+                            @php
+                                // Terima string URL atau object {title,url}
+                                $href  = is_array($q) ? ($q['url'] ?? '') : $q;
+                                $title = is_array($q) ? ($q['title'] ?? 'Quiz') : 'Quiz';
+
+                                // Jika tidak ada skema (http/https), jadikan absolute agar tidak jadi relatif
+                                if ($href && !preg_match('#^[a-z][a-z0-9+.\-]*://#i', $href) && !in_array($href[0], ['/', '#'])) {
+                                    $href = '//' . ltrim($href, '/');
+                                }
+                            @endphp
+
+                            @if($href)
+                                <a href="{{ $href }}" target="_blank" rel="noopener" class="badge badge-info mb-1">{{ $title }}</a>
+                            @endif
                         @endforeach
                     </td>
+
                     <td>
-                        @foreach(json_decode($module->link_video ?? '[]', true) as $link)
-                            <a href="{{ $link }}" target="_blank" class="badge badge-warning mb-1">Video</a>
+                        @php
+                            $videoRaw = $module->link_video;
+                            $videos   = is_string($videoRaw) ? json_decode($videoRaw, true) : ($videoRaw ?? []);
+                        @endphp
+
+                        @foreach($videos as $v)
+                            @php
+                                $href  = is_array($v) ? ($v['url'] ?? '') : $v;
+                                $title = is_array($v) ? ($v['title'] ?? 'Video') : 'Video';
+
+                                if ($href && !preg_match('#^[a-z][a-z0-9+.\-]*://#i', $href) && !in_array($href[0], ['/', '#'])) {
+                                    $href = '//' . ltrim($href, '/');
+                                }
+                            @endphp
+
+                            @if($href)
+                                <a href="{{ $href }}" target="_blank" rel="noopener" class="badge badge-warning mb-1">{{ $title }}</a>
+                            @endif
                         @endforeach
                     </td>
+
                     <td>{{ $module->updated_at->format('d M Y') }}</td>
                     @if(Auth::user()->id_level == 1)
                     <td>

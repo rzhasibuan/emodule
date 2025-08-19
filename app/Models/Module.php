@@ -13,6 +13,12 @@ class Module extends Model
         'name', 'file', 'link_quiz', 'link_video',
     ];
 
+    protected $casts = [
+        'link_quiz'  => 'array',
+        'link_video' => 'array',
+    ];
+
+
     // Convert link_quiz and link_video from JSON strings to arrays
     protected function getLinkQuizAttribute($value)
     {

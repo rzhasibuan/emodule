@@ -90,26 +90,59 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @foreach(json_decode($module->link_quiz ?? '[]', true) as $link)
-                                        @if($link)
-                                            <a href="{{ $link }}" target="_blank" class="badge badge-info mb-1">Quiz</a>
+                                    @php
+                                        // $module->link_quiz may already be an array (from casts)
+                                        $quizRaw = $module->link_quiz;
+                                        $quizzes = is_string($quizRaw) ? json_decode($quizRaw, true) : ($quizRaw ?? []);
+                                    @endphp
+
+                                    @foreach($quizzes as $q)
+                                        @php
+                                            // Support either "string URL" or ["title" => ..., "url" => ...]
+                                            $href  = is_array($q) ? ($q['url'] ?? '') : $q;
+                                            $title = is_array($q) ? ($q['title'] ?? 'Quiz') : 'Quiz';
+
+                                            // Make external links absolute if they came without scheme
+                                            if ($href && !preg_match('#^[a-z][a-z0-9+.\-]*://#i', $href) && !\Illuminate\Support\Str::startsWith($href, ['//','/','#'])) {
+                                                $href = '//' . ltrim($href, '/');
+                                            }
+                                        @endphp
+
+                                        @if($href)
+                                            <a href="{{ $href }}" target="_blank" rel="noopener" class="badge badge-info mb-1">
+                                                {{ $title }}
+                                            </a>
                                         @endif
                                     @endforeach
                                 </td>
+
                                 <td>
-                                    @foreach(json_decode($module->link_video ?? '[]', true) as $link)
-                                        @if($link)
-                                            @php
-                                                $isYoutube = Str::contains($link, ['youtube.com', 'youtu.be']);
-                                            @endphp
-                                            @if($isYoutube)
-                                                <a href="{{ $link }}" target="_blank" class="badge badge-danger mb-1"><i class="fab fa-youtube"></i> YouTube</a>
-                                            @else
-                                                <a href="{{ $link }}" target="_blank" class="badge badge-warning mb-1">Video</a>
-                                            @endif
+                                    @php
+                                        $videoRaw = $module->link_video;
+                                        $videos   = is_string($videoRaw) ? json_decode($videoRaw, true) : ($videoRaw ?? []);
+                                    @endphp
+
+                                    @foreach($videos as $v)
+                                        @php
+                                            $href  = is_array($v) ? ($v['url'] ?? '') : $v;
+                                            $title = is_array($v) ? ($v['title'] ?? 'Video') : 'Video';
+
+                                            if ($href && !preg_match('#^[a-z][a-z0-9+.\-]*://#i', $href) && !\Illuminate\Support\Str::startsWith($href, ['//','/','#'])) {
+                                                $href = '//' . ltrim($href, '/');
+                                            }
+
+                                            $isYoutube = $href ? \Illuminate\Support\Str::contains($href, ['youtube.com', 'youtu.be']) : false;
+                                        @endphp
+
+                                        @if($href)
+                                            <a href="{{ $href }}" target="_blank" rel="noopener"
+                                               class="badge {{ $isYoutube ? 'badge-danger' : 'badge-warning' }} mb-1">
+                                                @if($isYoutube)<i class="fab fa-youtube"></i> YouTube @else {{ $title }} @endif
+                                            </a>
                                         @endif
                                     @endforeach
                                 </td>
+
                             </tr>
                             @endforeach
                         </tbody>
