@@ -21,7 +21,10 @@
                                 class="w-full text-left px-3 py-2 rounded-lg border transition bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800 module-btn"
                                 data-name="{{ $m->name }}"
                                 data-source="{{ $m->file ? asset('storage/' . $m->file) : '' }}"
-                                data-quizzes='{{ json_encode($m->link_quiz ?: []) }}'
+                                data-module-id="{{ $m->id }}"
+                                data-has-quiz="{{ $m->quizzes->isNotEmpty() }}"
+                                data-quiz-taken="{{ $m->quiz_taken ?? false }}"
+                                data-score="{{ $m->score ?? 0 }}"
                                 data-videos='{{ json_encode($m->link_video ?: []) }}'
                             >
                                 📘 {{ $m->name }}
@@ -91,8 +94,49 @@
                 }).filter(Boolean).filter(x => x.url);
             }
 
-            function renderCards(container, items, type) {
+            function renderCards(container, data, type, moduleId = null) {
                 container.innerHTML = '';
+                if (type === 'quiz') {
+                    if (data.hasQuiz) {
+                        if (data.quizTaken) {
+                            const card = document.createElement('div');
+                            card.className = 'flex flex-col items-center p-4 bg-green-100 dark:bg-green-900 rounded-xl shadow';
+                            const icon = `<div class="bg-green-500 dark:bg-green-700 text-white rounded-full p-3 mb-2">
+                                           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                           </svg>
+                                       </div>`;
+                            card.innerHTML = `
+                                ${icon}
+                                <span class="font-semibold">Quiz Taken</span>
+                                <span class="text-xs text-green-700 dark:text-green-200 mt-1">Your Score: ${data.score}</span>
+                            `;
+                            container.appendChild(card);
+                        } else {
+                            const card = document.createElement('a');
+                            card.setAttribute('href', `/module/${moduleId}/quiz`);
+                            card.className = 'flex flex-col items-center p-4 bg-blue-100 dark:bg-blue-900 rounded-xl shadow hover:scale-105 transition-transform cursor-pointer';
+                            const icon = `<div class="bg-blue-500 dark:bg-blue-700 text-white rounded-full p-3 mb-2">
+                                           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/>
+                                           </svg>
+                                       </div>`;
+                            card.innerHTML = `
+                                ${icon}
+                                <span class="font-semibold">Take the Quiz</span>
+                                <span class="text-xs text-blue-700 dark:text-blue-200 mt-1">Test your knowledge</span>
+                            `;
+                            container.appendChild(card);
+                        }
+                    } else {
+                        const msg = document.createElement('p');
+                        msg.className = 'text-gray-500 dark:text-gray-400 col-span-full text-center';
+                        msg.textContent = `No quiz available for this module.`;
+                        container.appendChild(msg);
+                    }
+                    return;
+                }
+
                 if (!items.length) {
                     const msg = document.createElement('p');
                     msg.className = 'text-gray-500 dark:text-gray-400 col-span-full text-center';
@@ -106,29 +150,19 @@
                     card.setAttribute('href', it.url);
                     card.setAttribute('target', '_blank');
                     card.setAttribute('rel', 'noopener noreferrer');
-                    card.className = type === 'quiz'
-                        ? 'flex flex-col items-center p-4 bg-blue-100 dark:bg-blue-900 rounded-xl shadow hover:scale-105 transition-transform cursor-pointer'
-                        : 'flex flex-col items-center p-4 bg-red-100 dark:bg-red-900 rounded-xl shadow hover:scale-105 transition-transform cursor-pointer';
+                    card.className = 'flex flex-col items-center p-4 bg-red-100 dark:bg-red-900 rounded-xl shadow hover:scale-105 transition-transform cursor-pointer';
 
-                    const icon = type === 'quiz'
-                        ? `<div class="bg-blue-500 dark:bg-blue-700 text-white rounded-full p-3 mb-2">
-                           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/>
-                           </svg>
-                       </div>`
-                        : `<div class="bg-red-500 dark:bg-red-700 text-white rounded-full p-3 mb-2">
-                           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                           </svg>
-                       </div>`;
+                    const icon = `<div class="bg-red-500 dark:bg-red-700 text-white rounded-full p-3 mb-2">
+                                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                   </svg>
+                               </div>`;
 
                     card.innerHTML = `
                     ${icon}
                     <span class="font-semibold">${it.title}</span>
-                    <span class="text-xs ${type === 'quiz' ? 'text-blue-700 dark:text-blue-200' : 'text-red-700 dark:text-red-200'} mt-1">
-                        ${type === 'quiz' ? 'Take Quiz' : 'Watch Video'}
-                    </span>
+                    <span class="text-xs text-red-700 dark:text-red-200 mt-1">Watch Video</span>
                 `;
                     container.appendChild(card);
                 });
@@ -148,16 +182,17 @@
             }
 
             function updateContent(btn) {
-                const quizzesRaw = btn.getAttribute('data-quizzes') || '[]';
+                const hasQuiz = btn.dataset.hasQuiz === '1';
+                const moduleId = btn.dataset.moduleId;
+                const quizTaken = btn.dataset.quizTaken === '1';
+                const score = btn.dataset.score;
                 const videosRaw  = btn.getAttribute('data-videos')  || '[]';
 
-                const quizzes = parseMaybeJSON(quizzesRaw, []);
                 const videos  = parseMaybeJSON(videosRaw,  []);
 
-                const qItems = normalize(quizzes, 'Quiz');
                 const vItems = normalize(videos,  'Video');
 
-                renderCards(quizContainer,  qItems, 'quiz');
+                renderCards(quizContainer,  { hasQuiz, quizTaken, score }, 'quiz', moduleId);
                 renderCards(videoContainer, vItems, 'video');
 
                 // Notify your flipbook/pdf script

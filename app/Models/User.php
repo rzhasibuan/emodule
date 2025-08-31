@@ -44,4 +44,9 @@ class User extends Authenticatable
     ];
 
     protected $primaryKey = 'id_users';
+
+    public function quizResults()
+    {
+        return $this->hasMany(QuizResult::class, 'user_id', 'id_users');
+    }
 }

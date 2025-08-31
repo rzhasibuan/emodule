@@ -61,6 +61,7 @@
                     </div>
                 </div>
                 <a href="{{route("login")}}" class="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Login</a>
+                <a href="{{route("scores.index")}}" class="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">My Scores</a>
             </div>
 
             <!-- Kanan: Cari & Theme -->

@@ -60,6 +60,9 @@
 
               </div>
             </div>
+            <div class="mt-5 text-muted text-center">
+              Don't have an account? <a href="{{ route('register') }}">Create One</a>
+            </div>
             <div class="simple-footer">
               Copyright &copy; green module 2025
             </div>

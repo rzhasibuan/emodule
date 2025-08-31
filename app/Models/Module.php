@@ -22,8 +22,12 @@ class Module extends Model
     // Convert link_quiz and link_video from JSON strings to arrays
     protected function getLinkQuizAttribute($value)
     {
-        $links = json_decode($value, true);
-        return array_values(array_filter($links ?? []));
+        $links = json_decode($value, true) ?? [];
+        $internalQuizzes = $this->quizzes->map(function ($quiz) {
+            return ['title' => $quiz->question, 'url' => route('quiz.start', $quiz)];
+        })->toArray();
+
+        return array_merge(array_values(array_filter($links)), $internalQuizzes);
     }
 
     protected function getLinkVideoAttribute($value)
@@ -38,8 +42,13 @@ class Module extends Model
         $this->attributes['link_quiz'] = is_array($value) ? json_encode($value) : $value;
     }
 
-    protected function setLinkVideoAttribute($value)
+    public function setLinkVideoAttribute($value)
     {
         $this->attributes['link_video'] = is_array($value) ? json_encode($value) : $value;
+    }
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class);
     }
 }

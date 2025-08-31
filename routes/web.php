@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\QuizController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +20,14 @@ use App\Http\Controllers\ModuleController;
 Route::get('/', [\App\Http\Controllers\WelcomeController::class, "index"])->name('welcome');
 
 Route::get('/login',[LoginController::class, 'index'])->name('login');
+Route::get('/register', [LoginController::class, 'register'])->name('register');
 
 Route::post('/login',[LoginController::class, 'login_process'])->name('login_process');
+Route::post('/register', [LoginController::class, 'register_process'])->name('register_process');
 
 Route::get('/logout',[LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'level:1'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
     Route::get('/users', [AdminController::class, 'users'])->name('users');
@@ -39,6 +42,18 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/modules/{module}/edit', [ModuleController::class, 'edit'])->name('modules.edit');
     Route::put('/modules/{module}', [ModuleController::class, 'update'])->name('modules.update');
     Route::delete('/modules/{module}', [ModuleController::class, 'destroy'])->name('modules.destroy');
+
+    Route::resource('quizzes', QuizController::class);
 });
+
+Route::middleware(['auth', 'level:2'])->group(function () {
+    Route::get('/module/{module}/quiz', [\App\Http\Controllers\ModuleQuizController::class, 'start'])->name('module.quiz.start');
+    Route::post('/module/{module}/quiz', [\App\Http\Controllers\ModuleQuizController::class, 'submit'])->name('module.quiz.submit');
+    Route::get('/quiz/results/{quizResult}', [\App\Http\Controllers\ModuleQuizController::class, 'results'])->name('module.quiz.results');
+    Route::get('/my-scores', [\App\Http\Controllers\ScoreController::class, 'index'])->name('scores.index');
+});
+
+Route::get('/quiz/{quiz}', [QuizController::class, 'start'])->name('quiz.start');
+Route::post('/quiz/{quiz}', [QuizController::class, 'submit'])->name('quiz.submit');
 
 Route::view('/how-to-use', 'how-to-use')->name('how-to-use');
