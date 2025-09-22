@@ -23,15 +23,20 @@ class ModuleQuizController extends Controller
         $results = [];
 
         foreach ($quizzes as $index => $quiz) {
-            $isCorrect = isset($answers[$index]) && $answers[$index] == $quiz->correct_answer;
-            if ($isCorrect) {
-                $score++;
+            $isCorrect = null;
+            if ($quiz->type === 'multiple_choice') {
+                $isCorrect = isset($answers[$index]) && $answers[$index] == $quiz->correct_answer;
+                if ($isCorrect) {
+                    $score++;
+                }
             }
+
             $results[] = [
                 'question' => $quiz->question,
                 'user_answer' => $answers[$index] ?? null,
-                'correct_answer' => $quiz->correct_answer,
+                'correct_answer' => $quiz->type === 'multiple_choice' ? $quiz->correct_answer : $quiz->answer_key,
                 'correct' => $isCorrect,
+                'type' => $quiz->type,
             ];
         }
 

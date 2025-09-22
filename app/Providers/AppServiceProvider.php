@@ -26,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('layouts.fe', ModuleComposer::class);
+
+        if (class_exists('Doctrine\DBAL\Types\Type')) {
+            \Doctrine\DBAL\Types\Type::addType('char', 'Doctrine\DBAL\Types\StringType');
+        }
     }
 }

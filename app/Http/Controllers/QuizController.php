@@ -37,14 +37,58 @@ class QuizController extends Controller
         return redirect()->route('quizzes.index')->with('success', 'Quiz created successfully.');
     }
 
+    public function createEssay()
+    {
+        $modules = Module::all();
+        return view('admin.quizzes.create-essay', compact('modules'));
+    }
+
+    public function storeEssay(Request $request)
+    {
+        $request->validate([
+            'question' => 'required',
+            'answer_key' => 'required',
+            'module_id' => 'required|exists:modules,id',
+        ]);
+
+        Quiz::create([
+            'question' => $request->question,
+            'answer_key' => $request->answer_key,
+            'module_id' => $request->module_id,
+            'type' => 'essay',
+        ]);
+
+        return redirect()->route('quizzes.index')->with('success', 'Essay quiz created successfully.');
+    }
+
     public function edit(Quiz $quiz)
     {
+        if ($quiz->type == 'essay') {
+            $modules = Module::all();
+            return view('admin.quizzes.edit-essay', compact('quiz', 'modules'));
+        }
         $modules = Module::all();
         return view('admin.quizzes.edit', compact('quiz', 'modules'));
     }
 
     public function update(Request $request, Quiz $quiz)
     {
+        if ($quiz->type == 'essay') {
+            $request->validate([
+                'question' => 'required',
+                'answer_key' => 'required',
+                'module_id' => 'required|exists:modules,id',
+            ]);
+    
+            $quiz->update([
+                'question' => $request->question,
+                'answer_key' => $request->answer_key,
+                'module_id' => $request->module_id,
+            ]);
+    
+            return redirect()->route('quizzes.index')->with('success', 'Essay quiz updated successfully.');
+        }
+
         $request->validate([
             'question' => 'required',
             'option_a' => 'required',

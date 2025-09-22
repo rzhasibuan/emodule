@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\GradingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +44,13 @@ Route::prefix('admin')->middleware(['auth', 'level:1'])->group(function () {
     Route::put('/modules/{module}', [ModuleController::class, 'update'])->name('modules.update');
     Route::delete('/modules/{module}', [ModuleController::class, 'destroy'])->name('modules.destroy');
 
+    Route::get('/quizzes/create-essay', [QuizController::class, 'createEssay'])->name('quizzes.createEssay');
+    Route::post('/quizzes/store-essay', [QuizController::class, 'storeEssay'])->name('quizzes.storeEssay');
     Route::resource('quizzes', QuizController::class);
+
+    Route::get('/grading', [GradingController::class, 'index'])->name('grading.index');
+    Route::get('/grading/{result}', [GradingController::class, 'show'])->name('grading.show');
+    Route::post('/grading/{result}', [GradingController::class, 'store'])->name('grading.store');
 });
 
 Route::middleware(['auth', 'level:2'])->group(function () {

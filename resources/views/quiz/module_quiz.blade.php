@@ -38,27 +38,39 @@
 
         function renderQuestion(index) {
             const quiz = quizzes[index];
-            const options = {
-                a: quiz.option_a,
-                b: quiz.option_b,
-                c: quiz.option_c,
-                d: quiz.option_d,
-            };
+            let contentHtml = '';
 
-            let optionsHtml = '';
-            for (const [key, value] of Object.entries(options)) {
-                const isSelected = userAnswers[index] === key;
-                optionsHtml += `
-                    <div class="option-card p-4 border rounded-lg cursor-pointer ${isSelected ? 'bg-teal-100 dark:bg-teal-900 ring-2 ring-teal-500' : 'bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700'}" data-option="${key}">
-                        <span class="font-mono font-bold text-teal-500 mr-3">${key.toUpperCase()}</span>
-                        <span>${value}</span>
+            if (quiz.type === 'multiple_choice') {
+                const options = {
+                    a: quiz.option_a,
+                    b: quiz.option_b,
+                    c: quiz.option_c,
+                    d: quiz.option_d,
+                };
+
+                let optionsHtml = '';
+                for (const [key, value] of Object.entries(options)) {
+                    const isSelected = userAnswers[index] === key;
+                    optionsHtml += `
+                        <div class="option-card p-4 border rounded-lg cursor-pointer ${isSelected ? 'bg-teal-100 dark:bg-teal-900 ring-2 ring-teal-500' : 'bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700'}" data-option="${key}">
+                            <span class="font-mono font-bold text-teal-500 mr-3">${key.toUpperCase()}</span>
+                            <span>${value}</span>
+                        </div>
+                    `;
+                }
+                contentHtml = `<div class="space-y-4">${optionsHtml}</div>`;
+            } else if (quiz.type === 'essay') {
+                const answer = userAnswers[index] || '';
+                contentHtml = `
+                    <div>
+                        <textarea class="w-full h-48 p-4 border rounded-lg dark:bg-gray-800 dark:text-white" placeholder="Type your answer here...">${answer}</textarea>
                     </div>
                 `;
             }
 
             quizContainer.innerHTML = `
                 <h2 class="text-xl font-semibold mb-4">${quiz.question}</h2>
-                <div class="space-y-4">${optionsHtml}</div>
+                ${contentHtml}
             `;
 
             questionCounter.textContent = `Question ${index + 1} of ${quizzes.length}`;
@@ -76,6 +88,13 @@
             if (card) {
                 userAnswers[currentQuestionIndex] = card.dataset.option;
                 renderQuestion(currentQuestionIndex); // Re-render to show selection
+            }
+        });
+
+        quizContainer.addEventListener('input', (e) => {
+            const textarea = e.target.closest('textarea');
+            if (textarea) {
+                userAnswers[currentQuestionIndex] = textarea.value;
             }
         });
 

@@ -17,13 +17,24 @@
 
             <div class="space-y-4">
                 @foreach (json_decode($quizResult->answers, true) as $result)
-                    <div class="p-4 border rounded-lg {{ $result['correct'] ? 'bg-green-50 dark:bg-green-900 border-green-200 dark:border-green-700' : 'bg-red-50 dark:bg-red-900 border-red-200 dark:border-red-700' }}">
-                        <p class="font-semibold">{{ $result['question'] }}</p>
-                        <p>Your answer: <span class="font-bold">{{ $result['user_answer'] ? strtoupper($result['user_answer']) : 'Not answered' }}</span></p>
-                        @if (!$result['correct'])
-                            <p>Correct answer: <span class="font-bold">{{ strtoupper($result['correct_answer']) }}</span></p>
-                        @endif
-                    </div>
+                    @if ($result['type'] === 'multiple_choice')
+                        <div class="p-4 border rounded-lg {{ $result['correct'] ? 'bg-green-50 dark:bg-green-900 border-green-200 dark:border-green-700' : 'bg-red-50 dark:bg-red-900 border-red-200 dark:border-red-700' }}">
+                            <p class="font-semibold">{{ $result['question'] }}</p>
+                            <p>Your answer: <span class="font-bold">{{ $result['user_answer'] ? strtoupper($result['user_answer']) : 'Not answered' }}</span></p>
+                            @if (!$result['correct'])
+                                <p>Correct answer: <span class="font-bold">{{ strtoupper($result['correct_answer']) }}</span></p>
+                            @endif
+                        </div>
+                    @elseif ($result['type'] === 'essay')
+                        <div class="p-4 border rounded-lg bg-yellow-50 dark:bg-yellow-900 border-yellow-200 dark:border-yellow-700">
+                            <p class="font-semibold">{{ $result['question'] }}</p>
+                            <p class="mt-2"><strong>Your Answer:</strong></p>
+                            <p class="whitespace-pre-wrap">{{ $result['user_answer'] ?: 'Not answered' }}</p>
+                            <p class="mt-2"><strong>Answer Key:</strong></p>
+                            <p class="whitespace-pre-wrap">{{ $result['correct_answer'] }}</p>
+                            <p class="mt-2 text-sm text-yellow-700 dark:text-yellow-300">This question will be graded manually.</p>
+                        </div>
+                    @endif
                 @endforeach
             </div>
         </div>

@@ -17,6 +17,8 @@ class Quiz extends Model
         'option_d',
         'correct_answer',
         'module_id',
+        'type',
+        'answer_key',
     ];
 
     public function module()

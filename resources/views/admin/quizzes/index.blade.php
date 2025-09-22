@@ -5,6 +5,7 @@
         <h1>Quizzes</h1>
         <div class="section-header-breadcrumb">
             <a href="{{ route('quizzes.create') }}" class="btn btn-primary">Add New Quiz</a>
+            <a href="{{ route('quizzes.createEssay') }}" class="btn btn-primary ml-2">Add New Essay Quiz</a>
         </div>
     </div>
 
@@ -24,6 +25,7 @@
                                     <th>#</th>
                                     <th>Question</th>
                                     <th>Module</th>
+                                    <th>Type</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -33,6 +35,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $quiz->question }}</td>
                                         <td>{{ $quiz->module->name ?? 'N/A' }}</td>
+                                        <td>{{ $quiz->type }}</td>
                                         <td>
                                             <a href="{{ route('quizzes.edit', $quiz) }}" class="btn btn-sm btn-info">Edit</a>
                                             <form action="{{ route('quizzes.destroy', $quiz) }}" method="POST" class="d-inline">
