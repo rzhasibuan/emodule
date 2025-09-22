@@ -20,6 +20,9 @@ use App\Http\Controllers\GradingController;
 
 Route::get('/', [\App\Http\Controllers\WelcomeController::class, "index"])->name('welcome');
 
+Route::get("/list-module", [\App\Http\Controllers\WelcomeController::class, "listModule"])->name("listModule");
+Route::get("/detail-module/{id}", [\App\Http\Controllers\WelcomeController::class, "detailModule"])->name("detail.module");
+
 Route::get('/login',[LoginController::class, 'index'])->name('login');
 Route::get('/register', [LoginController::class, 'register'])->name('register');
 

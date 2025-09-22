@@ -22,6 +22,17 @@ class WelcomeController extends Controller
             });
         }
 
-        return view('welcome', ['module' => $modules]);
+        return view('home', ['module' => $modules]);
+    }
+
+    public function listModule()
+    {
+        return view("list-module");
+    }
+
+
+    public function detailModule()
+    {
+        return view("detail-module");
     }
 }
