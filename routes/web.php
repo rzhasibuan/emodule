@@ -31,7 +31,7 @@ Route::get('/register', [LoginController::class, 'register'])->name('register');
 Route::post('/login',[LoginController::class, 'login_process'])->name('login_process');
 Route::post('/register', [LoginController::class, 'register_process'])->name('register_process');
 
-Route::get('/logout',[LoginController::class, 'logout'])->name('logout')->middleware('auth');
+Route::post('/logout',[LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::prefix('admin')->middleware(['auth', 'level:1'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');

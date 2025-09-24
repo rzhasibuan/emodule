@@ -97,10 +97,22 @@
         @endif
 
         @if($module->file)
-        <button class="control-button" onclick="window.location.href='{{ asset('storage/' . $module->file) }}'">
+        <button class="control-button" onclick="window.location.href='{{ route('module.quiz.start', $module->id) }}'">
             <div class="button-icon">📥</div>
             <div class="button-text">Evaluation</div>
         </button>
+        @php
+            $userResult = null;
+            if(Auth::check()) {
+                $userResult = \App\Models\QuizResult::where('user_id', Auth::id())->where('module_id', $module->id)->latest()->first();
+            }
+        @endphp
+        @if($userResult)
+        <button class="control-button" onclick="window.location.href='{{ route('module.quiz.results', ['quizResult' => $userResult->id]) }}'">
+            <div class="button-icon">📊</div>
+            <div class="button-text">Lihat Hasil Ujian</div>
+        </button>
+        @endif
         @endif
 
     </div>

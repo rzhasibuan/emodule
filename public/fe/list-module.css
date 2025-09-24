@@ -145,6 +145,22 @@ body {
     box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
 }
 
+.logout-btn {
+    background: linear-gradient(45deg, #DAA520, #B8860B);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    color: #2D5016;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+}
+
 /* Main Content */
 .main-content {
     padding: 60px 20px 100px;
