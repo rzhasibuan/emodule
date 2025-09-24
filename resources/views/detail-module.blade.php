@@ -67,7 +67,7 @@
         </button>
 
         @if($module->file)
-        <button class="control-button" onclick="window.location.href='{{ asset('storage/' . $module->file) }}'">
+        <button class="control-button" onclick="window.location.href='{{ route('module.flipbook', $module->id) }}'">
             <div class="button-icon">📥</div>
             <div class="button-text">Materi</div>
         </button>
@@ -90,7 +90,7 @@
         @endif
 
         @if($module->file)
-            <button class="control-button" onclick="window.open('{{ route('module.flipbook', $module->id) }}', '_blank')">
+            <button class="control-button" onclick="window.open('{{ route('how-to-use') }}', '_blank')">
                 <div class="button-icon">📚</div>
                 <div class="button-text">Simulation</div>
             </button>
