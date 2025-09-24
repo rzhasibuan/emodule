@@ -40,6 +40,8 @@ Route::prefix('admin')->middleware(['auth', 'level:1'])->group(function () {
     Route::get('/delete/{id_users}', [AdminController::class, 'delete'])->name('delete');
     Route::get('/show/{id_users}', [AdminController::class, 'show_user'])->name('show_user');
     Route::post('/update/{id_users}', [AdminController::class, 'change_user'])->name('change_user');
+    Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
+    Route::post('/users/store', [AdminController::class, 'storeUser'])->name('admin.users.store');
 
     Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
     Route::get('/modules/create', [ModuleController::class, 'create'])->name('modules.create');
@@ -72,8 +74,18 @@ Route::middleware(['auth', 'level:2'])->group(function () {
     Route::get('/my-scores', [\App\Http\Controllers\ScoreController::class, 'index'])->name('scores.index');
 });
 
+
 Route::get('/quiz/{quiz}', [QuizController::class, 'start'])->name('quiz.start');
 Route::post('/quiz/{quiz}', [QuizController::class, 'submit'])->name('quiz.submit');
 
 Route::view('/how-to-use', 'how-to-use')->name('how-to-use');
 Route::view('/about', 'about')->name('about');
+
+Route::prefix('guru')->middleware(['auth', 'level:3'])->group(function () {
+    Route::get('/', function() {
+        \Log::info('Guru login', ['user' => Auth::user()]);
+        return view('guru.dashboard');
+    })->name('guru.dashboard');
+    Route::get('/modules/create', [ModuleController::class, 'create'])->name('user.modules.create');
+    Route::post('/modules', [ModuleController::class, 'store'])->name('user.modules.store');
+});

@@ -102,4 +102,31 @@ class AdminController extends Controller
         ]);
     }
 
+    public function createUser() {
+        // Hanya admin yang boleh akses
+        if(Auth::user()->id_level != '1') {
+            return redirect()->route('users')->with('error', 'Tidak punya akses!');
+        }
+        return view('admin.create_user');
+    }
+
+    public function storeUser(Request $request) {
+        if(Auth::user()->id_level != '1') {
+            return redirect()->route('users')->with('error', 'Tidak punya akses!');
+        }
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'id_level' => 'required|in:1,2,3',
+        ]);
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->id_level = $request->id_level;
+        $user->save();
+        return redirect()->route('users')->with('success', 'User berhasil ditambahkan!');
+    }
+
 }

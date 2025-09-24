@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -108,4 +107,9 @@ return [
 
     'password_timeout' => 10800,
 
+    'level' => [
+        'admin' => 1,
+        'guru' => 3,
+        'user' => 2,
+    ],
 ];

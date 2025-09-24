@@ -15,9 +15,12 @@ class LoginController extends Controller
 
     public function login_process(Request $request){
         if(Auth::attempt($request->only('email','password'))){
-            return redirect('/admin')->with([
-                'success' => 'Success Login!'
-            ]);
+            $user = Auth::user();
+            if ($user->id_level == 1) {
+                return redirect('/admin')->with(['success' => 'Success Login!']);
+            } else {
+                return redirect('/')->with(['success' => 'Success Login!']);
+            }
         }
 
         return redirect()

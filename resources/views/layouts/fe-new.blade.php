@@ -15,9 +15,10 @@
 
 <!-- Decorative Elements -->
 <div class="star-1">✨</div>
-<div class="star-2">⭐</div>
-<div class="pencil-icon">✏️</div>
-<div class="book-icon">📚</div>
+<div class="star-2">✨</div>
+<div class="pencil-icon">✨</div>
+<div class="book-icon">✨</div>
+
 
 <!-- Header -->
 <x-navbar/>

@@ -3,6 +3,9 @@
 @section('container')
     <div class="section-header">
         <h1>Users</h1>
+        @if(Auth::user()->id_level == '1')
+        <a href="{{ route('admin.users.create') }}" class="btn btn-primary ml-3">Tambah User</a>
+        @endif
     </div>
     <table id="example2" class="table table-hover table-striped table-border">
         <thead>

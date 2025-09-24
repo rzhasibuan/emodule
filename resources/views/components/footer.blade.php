@@ -3,12 +3,7 @@
         <div class="footer-section">
             <h3>E-Modul</h3>
             <p>Platform pembelajaran modul ajar berdiferensiasi yang inovatif dan menyenangkan untuk pendidik dan siswa Indonesia.</p>
-            <div class="social-links">
-                <a href="#" class="social-link">📘</a>
-                <a href="#" class="social-link">📱</a>
-                <a href="#" class="social-link">🐦</a>
-                <a href="#" class="social-link">📧</a>
-            </div>
+
         </div>
 
         <div class="footer-section">

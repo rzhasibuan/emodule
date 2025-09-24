@@ -18,7 +18,7 @@
                 pembelajaran modul ajar berdiferensiasi sekaligus.
             </p>
             <div class="cta-buttons">
-                <button class="primary-btn">Lihat Modul Terbaru</button>
+                <a href="{{route("listModule")}}" class="primary-btn" style="text-decoration: none">Lihat Modul Terbaru</a>
                 <button class="secondary-btn">
                     <span class="play-icon">▶</span>
                     Lihat Video Tutorial
@@ -27,7 +27,7 @@
         </div>
         <div class="content-right">
             <div class="hero-placeholder">
-                [Hero Image - Guru dan Siswa]
+                <img src="{{ asset('banner.png') }}" style="width: 100%; border-radius: 10px" alt="Hero Placeholder" />
             </div>
         </div>
     </main>

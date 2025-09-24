@@ -13,12 +13,12 @@
                 E-Modul Platform hadir sebagai solusi inovatif untuk pembelajaran berdiferensiasi. Kami berkomitmen untuk menyediakan akses mudah ke modul ajar berkualitas tinggi yang dirancang untuk memenuhi beragam gaya dan kebutuhan belajar.
             </p>
 
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 mb-3">Visi Kami</h2>
+            <h2 class="text-2xl font-bold mt-6 mb-3" style="color: #fff3cd">Visi Kami</h2>
             <p class="description">
                 Menjadi platform terdepan dalam memfasilitasi pendidikan yang inklusif dan adaptif, memberdayakan setiap individu untuk mencapai potensi akademis dan personal terbaiknya.
             </p>
 
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 mb-3">Misi Kami</h2>
+            <h2 class="text-2xl font-bold mt-6 mb-3" style="color: #fff3cd">Misi Kami</h2>
             <ul class="list-disc list-inside description space-y-2">
                 <li>Menyediakan modul ajar berdiferensiasi yang inovatif dan relevan.</li>
                 <li>Memastikan aksesibilitas materi pembelajaran bagi semua kalangan.</li>
@@ -31,8 +31,8 @@
             </p>
 
             <div class="cta-buttons mt-8">
-                <a href="{{ route('listModule') }}" class="primary-btn">Jelajahi Modul Kami</a>
-                <a href="{{ route('how-to-use') }}" class="secondary-btn">
+                <a href="{{ route('listModule') }}" class="primary-btn" style="text-decoration: none">Jelajahi Modul Kami</a>
+                <a href="{{ route('how-to-use') }}" class="secondary-btn" style="text-decoration: none">
                     <span class="play-icon">▶</span>
                     Panduan Penggunaan
                 </a>
@@ -40,8 +40,7 @@
         </div>
         <div class="content-right">
             <div class="hero-placeholder">
-                <img src="{{ asset('images/about-hero.png') }}" alt="Ilustrasi Tentang Kami" class="w-full h-auto rounded-lg shadow-lg">
-                {{-- Placeholder for a more specific image. You might need to create 'public/images/about-hero.png' --}}
+                <img src="{{ asset('about.png') }}" alt="Ilustrasi Tentang Kami" class="rounded-lg shadow-lg" style="width: 100%;"/>
             </div>
         </div>
     </main>
