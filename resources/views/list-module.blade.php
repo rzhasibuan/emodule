@@ -32,77 +32,37 @@
 
     <!-- Cards Grid -->
     <div class="cards-grid">
-        <!-- Card 1 -->
+        @forelse($modules as $module)
         <div class="module-card">
-            <div class="card-image">📚</div>
+            <div class="card-image">
+                @if($module->image)
+                    <img src="{{ asset('storage/' . $module->image) }}" alt="Module Image" style="width: 100%; height: 100%; object-fit: cover;">
+                @else
+                    📚
+                @endif
+            </div>
             <div class="card-content">
-                <span class="card-badge">Matematika</span>
-                <h3 class="card-title">Aljabar Linear untuk Pemula</h3>
-                <p class="card-description">Modul pembelajaran aljabar linear yang dirancang khusus untuk siswa dengan gaya belajar yang berbeda-beda.</p>
+                <span class="card-badge">{{ $module->category ?? 'Umum' }}</span>
+                <h3 class="card-title">{{ $module->name }}</h3>
+                <p class="card-description">{{ $module->description ?? 'Tidak ada deskripsi.' }}</p>
                 <div class="card-meta">
-                    <span>👤 Dr. Ahmad Suharto</span>
-                    <span>⭐ 4.8 (124 review)</span>
+                    <span>👤 {{ $module->author ?? 'Anonim' }}</span>
+                    {{-- <span>⭐ 4.8 (124 review)</span> --}}{{-- Review score is not in DB --}}
                 </div>
                 <div class="card-actions">
-                    <a class="btn-primary" href="{{route('detail.module', 2)}}">Lihat Detail</a>
-                    <button class="btn-secondary">📥</button>
+                    <a class="btn-primary" href="{{route('detail.module', $module->id)}}">Lihat Detail</a>
+                    @if($module->file)
+                        <a class="btn-secondary" href="{{ asset('storage/' . $module->file) }}" target="_blank">Lihat PDF</a>
+                    @endif
+                    @if(!empty($module->link_video))
+                        <button class="btn-secondary" onclick="alert('Video links: {{ implode(', ', $module->link_video) }}')">Lihat Video</button>
+                    @endif
                 </div>
             </div>
         </div>
-
-        <!-- Card 2 -->
-        <div class="module-card">
-            <div class="card-image">📖</div>
-            <div class="card-content">
-                <span class="card-badge">Bahasa Indonesia</span>
-                <h3 class="card-title">Menulis Kreatif dengan Teknik Berdiferensiasi</h3>
-                <p class="card-description">Panduan lengkap menulis kreatif yang disesuaikan dengan kemampuan dan minat siswa yang beragam.</p>
-                <div class="card-meta">
-                    <span>👤 Prof. Siti Nurhaliza</span>
-                    <span>⭐ 4.9 (89 review)</span>
-                </div>
-                <div class="card-actions">
-                    <button class="btn-primary">Lihat Detail</button>
-                    <button class="btn-secondary">📥</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="module-card">
-            <div class="card-image">🔬</div>
-            <div class="card-content">
-                <span class="card-badge">IPA</span>
-                <h3 class="card-title">Eksperimen Fisika Interaktif</h3>
-                <p class="card-description">Modul praktikum fisika dengan pendekatan hands-on learning untuk berbagai tingkat kemampuan siswa.</p>
-                <div class="card-meta">
-                    <span>👤 Dr. Budi Santoso</span>
-                    <span>⭐ 4.7 (156 review)</span>
-                </div>
-                <div class="card-actions">
-                    <button class="btn-primary">Lihat Detail</button>
-                    <button class="btn-secondary">📥</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="module-card">
-            <div class="card-image">🌍</div>
-            <div class="card-content">
-                <span class="card-badge">IPS</span>
-                <h3 class="card-title">Sejarah Nusantara Digital</h3>
-                <p class="card-description">Pembelajaran sejarah Indonesia dengan teknologi AR/VR dan adaptasi untuk kebutuhan belajar individual.</p>
-                <div class="card-meta">
-                    <span>👤 Prof. Dewi Kartika</span>
-                    <span>⭐ 4.6 (203 review)</span>
-                </div>
-                <div class="card-actions">
-                    <button class="btn-primary">Lihat Detail</button>
-                    <button class="btn-secondary">📥</button>
-                </div>
-            </div>
-        </div>
+        @empty
+            <p class="text-center">Tidak ada modul yang tersedia saat ini.</p>
+        @endforelse
     </div>
 
     <!-- See More Section -->
@@ -135,8 +95,9 @@
             const title = card.querySelector('.card-title').textContent.toLowerCase();
             const description = card.querySelector('.card-description').textContent.toLowerCase();
             const badge = card.querySelector('.card-badge').textContent.toLowerCase();
+            const author = card.querySelector('.card-meta span:first-child').textContent.toLowerCase(); // Assuming author is the first span in card-meta
 
-            if (title.includes(searchTerm) || description.includes(searchTerm) || badge.includes(searchTerm)) {
+            if (title.includes(searchTerm) || description.includes(searchTerm) || badge.includes(searchTerm) || author.includes(searchTerm)) {
                 card.style.display = 'block';
             } else {
                 card.style.display = 'none';

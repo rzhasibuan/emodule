@@ -24,8 +24,11 @@
                 <tr>
                     <th>#</th>
                     <th>Name</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Author</th>
                     <th>File</th>
-                    <th>Quiz Link</th>
+                    <th>Image</th>
                     <th>Video Link</th>
                     <th>Last Update</th>
                     @if(Auth::user()->id_level == 1)
@@ -38,6 +41,9 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $module->name }}</td>
+                    <td>{{ $module->category ?? '-' }}</td>
+                    <td>{{ Str::limit($module->description, 50) ?? '-' }}</td>
+                    <td>{{ $module->author ?? '-' }}</td>
                     <td>
                         @if($module->file)
                             <a href="{{ asset('storage/' . $module->file) }}" target="_blank" class="btn btn-sm btn-outline-primary">View PDF</a>
@@ -46,30 +52,12 @@
                         @endif
                     </td>
                     <td>
-                        @php
-                            // Sudah array (karena casts) atau mungkin string JSON di data lama
-                            $quizRaw = $module->link_quiz;
-                            $quizzes = is_string($quizRaw) ? json_decode($quizRaw, true) : ($quizRaw ?? []);
-                        @endphp
-
-                        @foreach($quizzes as $q)
-                            @php
-                                // Terima string URL atau object {title,url}
-                                $href  = is_array($q) ? ($q['url'] ?? '') : $q;
-                                $title = is_array($q) ? ($q['title'] ?? 'Quiz') : 'Quiz';
-
-                                // Jika tidak ada skema (http/https), jadikan absolute agar tidak jadi relatif
-                                if ($href && !preg_match('#^[a-z][a-z0-9+.\-]*://#i', $href) && !in_array($href[0], ['/', '#'])) {
-                                    $href = '//' . ltrim($href, '/');
-                                }
-                            @endphp
-
-                            @if($href)
-                                <a href="{{ $href }}" target="_blank" rel="noopener" class="badge badge-info mb-1">{{ $title }}</a>
-                            @endif
-                        @endforeach
+                        @if($module->image)
+                            <img src="{{ asset('storage/' . $module->image) }}" alt="Module Image" class="img-thumbnail" width="50">
+                        @else
+                            -
+                        @endif
                     </td>
-
                     <td>
                         @php
                             $videoRaw = $module->link_video;

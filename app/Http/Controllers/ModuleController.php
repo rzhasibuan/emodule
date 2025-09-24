@@ -21,8 +21,11 @@ class ModuleController extends Controller
     {
         $data = $request->validate([
             'name' => 'nullable|string',
+            'category' => 'nullable|string',
+            'description' => 'nullable|string',
+            'author' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf',
-            'link_quiz' => 'nullable|array',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'link_video' => 'nullable|array',
         ]);
         if ($request->hasFile('file')) {
@@ -33,7 +36,14 @@ class ModuleController extends Controller
         } else {
             $data['file'] = null;
         }
-        $data['link_quiz'] = json_encode($request->input('link_quiz', []));
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $randomImageName = uniqid('module_image_', true) . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('modules', $randomImageName, 'public');
+            $data['image'] = $imagePath;
+        } else {
+            $data['image'] = null;
+        }
         $data['link_video'] = json_encode($request->input('link_video', []));
         Module::create($data);
         // Set success message for SweetAlert toast
@@ -55,8 +65,11 @@ class ModuleController extends Controller
     {
         $data = $request->validate([
             'name' => 'nullable|string',
+            'category' => 'nullable|string',
+            'description' => 'nullable|string',
+            'author' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf',
-            'link_quiz' => 'nullable|array',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'link_video' => 'nullable|array',
         ]);
         if ($request->hasFile('file')) {
@@ -67,7 +80,14 @@ class ModuleController extends Controller
         } else {
             $data['file'] = $module->file;
         }
-        $data['link_quiz'] = json_encode($request->input('link_quiz', []));
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $randomImageName = uniqid('module_image_', true) . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('modules', $randomImageName, 'public');
+            $data['image'] = $imagePath;
+        } else {
+            $data['image'] = $module->image;
+        }
         $data['link_video'] = json_encode($request->input('link_video', []));
         $module->update($data);
         // Set success message for SweetAlert toast

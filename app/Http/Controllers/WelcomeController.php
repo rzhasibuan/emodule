@@ -27,12 +27,15 @@ class WelcomeController extends Controller
 
     public function listModule()
     {
-        return view("list-module");
+        $modules = Module::orderBy('name')->get();
+        return view("list-module", compact('modules'));
     }
 
 
-    public function detailModule()
+    public function detailModule($id)
     {
-        return view("detail-module");
+        $module = Module::findOrFail($id);
+
+        return view("detail-module", compact('module'));
     }
 }

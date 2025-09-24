@@ -67,3 +67,4 @@ Route::get('/quiz/{quiz}', [QuizController::class, 'start'])->name('quiz.start')
 Route::post('/quiz/{quiz}', [QuizController::class, 'submit'])->name('quiz.submit');
 
 Route::view('/how-to-use', 'how-to-use')->name('how-to-use');
+Route::view('/about', 'about')->name('about');

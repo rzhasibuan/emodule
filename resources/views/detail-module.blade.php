@@ -19,10 +19,9 @@
     <!-- Top Section -->
     <div class="top-section">
         <!-- Left Box - Visual Area -->
-        <div class="visual-area">
-            <!--<div class="ball-3d"></div>-->
-            <h2 class="visual-title">Mengenal Bola</h2>
-            <p class="visual-subtitle">Konsep Dasar Geometri</p>
+        <div class="visual-area" @if($module->image) style="background-image: url('{{ asset('storage/' . $module->image) }}'); background-size: cover; background-position: center;" @endif>
+            <h2 class="visual-title">{{ $module->name }}</h2>
+            <p class="visual-subtitle">{{ $module->category ?? 'Umum' }}</p>
         </div>
 
         <!-- Right Box - Details Area -->
@@ -30,111 +29,71 @@
             <h3 class="details-title">Detail Modul</h3>
 
             <div class="detail-line">
-                <span class="detail-label">Jenjang:</span>
-                <span class="detail-value">SD Negeri 001 Bonai Darussalam</span>
+                <span class="detail-label">Nama Modul:</span>
+                <span class="detail-value">{{ $module->name }}</span>
             </div>
 
             <div class="detail-line">
-                <span class="detail-label">Mata Pelajaran:</span>
-                <span class="detail-value">Matematika</span>
+                <span class="detail-label">Kategori:</span>
+                <span class="detail-value">{{ $module->category ?? 'Umum' }}</span>
             </div>
 
             <div class="detail-line">
-                <span class="detail-label">Fase/Kelas:</span>
-                <span class="detail-value"><span class="badge">C/5-6</span></span>
+                <span class="detail-label">Penulis:</span>
+                <span class="detail-value">{{ $module->author ?? 'Anonim' }}</span>
             </div>
 
             <div class="detail-line">
-                <span class="detail-label">Topik:</span>
-                <span class="detail-value">Konsep Dasar Bola</span>
+                <span class="detail-label">Deskripsi:</span>
+                <span class="detail-value">{{ $module->description ?? 'Tidak ada deskripsi.' }}</span>
             </div>
 
+            @if($module->file)
             <div class="detail-line">
-                <span class="detail-label">Sub Topik:</span>
-                <span class="detail-value">Mengenal bola, menghitung volume dan luas permukaan</span>
+                <span class="detail-label">File Modul:</span>
+                <span class="detail-value"><a href="{{ asset('storage/' . $module->file) }}" target="_blank" class="btn btn-sm btn-outline-primary">Lihat PDF</a></span>
             </div>
+            @endif
 
-            <div class="detail-line">
-                <span class="detail-label">Pertemuan:</span>
-                <span class="detail-value"><span class="badge">1 (Satu)</span></span>
-            </div>
-
-            <div class="detail-line">
-                <span class="detail-label">Alokasi Waktu:</span>
-                <span class="detail-value">2×35 Menit</span>
-            </div>
         </div>
     </div>
 
     <!-- Bottom Section - Control Buttons -->
     <div class="bottom-section">
-        <button class="control-button" onclick="handleAction('modul')">
+        @if($module->file)
+        <button class="control-button" onclick="window.open('{{ asset('storage/' . $module->file) }}', '_blank')">
             <div class="button-icon">📚</div>
-            <div class="button-text">Perpose</div>
+            <div class="button-text">Lihat Modul</div>
         </button>
+        @endif
 
-        <button class="control-button" onclick="handleAction('lkpd')">
-            <div class="button-icon">📝</div>
-            <div class="button-text">Meterial</div>
-        </button>
+        @if($module->link_video && count($module->link_video) > 0)
+            @foreach($module->link_video as $video)
+                @php
+                    $href  = is_array($video) ? ($video['url'] ?? '') : $video;
+                    $title = is_array($video) ? ($video['title'] ?? 'Video') : 'Video';
+                @endphp
+                @if($href)
+                <button class="control-button" onclick="window.open('{{ $href }}', '_blank')">
+                    <div class="button-icon">▶</div>
+                    <div class="button-text">{{ $title }}</div>
+                </button>
+                @endif
+            @endforeach
+        @endif
 
-        <button class="control-button" onclick="handleAction('bahan')">
-            <div class="button-icon">📖</div>
-            <div class="button-text">Video</div>
-        </button>
-
-        <button class="control-button" onclick="handleAction('observasi')">
-            <div class="button-icon">📊</div>
-            <div class="button-text">Evaluation</div>
-        </button>
-
-        <button class="control-button" onclick="handleAction('download')">
+        @if($module->file)
+        <button class="control-button" onclick="window.location.href='{{ asset('storage/' . $module->file) }}'">
             <div class="button-icon">📥</div>
-            <div class="button-text">Download</div>
+            <div class="button-text">Download Modul</div>
         </button>
+        @endif
     </div>
 </main>
 
 
 <script>
-    // Handle button actions
-    function handleAction(action) {
-        const actions = {
-            'modul': 'Membuka Modul Pembelajaran...',
-            'lkpd': 'Membuka Lembar Kerja Peserta Didik...',
-            'bahan': 'Membuka Bahan Ajar...',
-            'observasi': 'Membuka Form Observasi...',
-            'download': 'Memulai Download...'
-        };
-
-        alert(actions[action] || 'Aksi tidak dikenal');
-
-        // Add visual feedback
-        const button = event.target.closest('.control-button');
-        button.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            button.style.transform = '';
-        }, 150);
-    }
-
-    // Add interactive ball effect
-    const ball = document.querySelector('.ball-3d');
-    ball.addEventListener('click', function() {
-        this.style.animation = 'none';
-        setTimeout(() => {
-            this.style.animation = 'float 1s ease-in-out 3';
-        }, 100);
-    });
-
-    // Add hover effect to visual area
-    const visualArea = document.querySelector('.visual-area');
-    visualArea.addEventListener('mouseenter', function() {
-        ball.style.transform = 'scale(1.1)';
-    });
-
-    visualArea.addEventListener('mouseleave', function() {
-        ball.style.transform = 'scale(1)';
-    });
+    // No specific JS needed for dynamic content, basic button actions handled inline
 </script>
 </body>
 </html>

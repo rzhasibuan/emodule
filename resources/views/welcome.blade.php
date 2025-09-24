@@ -22,9 +22,6 @@
                                 data-name="{{ $m->name }}"
                                 data-source="{{ $m->file ? asset('storage/' . $m->file) : '' }}"
                                 data-module-id="{{ $m->id }}"
-                                data-has-quiz="{{ $m->quizzes->isNotEmpty() }}"
-                                data-quiz-taken="{{ $m->quiz_taken ?? false }}"
-                                data-score="{{ $m->score ?? 0 }}"
                                 data-videos='{{ json_encode($m->link_video ?: []) }}'
                             >
                                 📘 {{ $m->name }}
@@ -43,11 +40,6 @@
                     <div id="viewerArea"><!-- Flipbook akan disuntik di sini --></div>
 
                     <div class="mt-6">
-                        <h2 class="text-lg font-semibold mb-2">Quiz Links</h2>
-                        <div id="quizContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
-                    </div>
-
-                    <div class="mt-6">
                         <h2 class="text-lg font-semibold mb-2">Video Links</h2>
                         <div id="videoContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
                     </div>
@@ -59,7 +51,6 @@
     {{-- Inline script (no @push needed) --}}
     <script>
         (function() {
-            const quizContainer  = document.getElementById('quizContainer');
             const videoContainer = document.getElementById('videoContainer');
 
             const searchInput = document.getElementById('search');
@@ -94,48 +85,8 @@
                 }).filter(Boolean).filter(x => x.url);
             }
 
-            function renderCards(container, data, type, moduleId = null) {
+            function renderCards(container, items, type, moduleId = null) {
                 container.innerHTML = '';
-                if (type === 'quiz') {
-                    if (data.hasQuiz) {
-                        if (data.quizTaken) {
-                            const card = document.createElement('div');
-                            card.className = 'flex flex-col items-center p-4 bg-green-100 dark:bg-green-900 rounded-xl shadow';
-                            const icon = `<div class="bg-green-500 dark:bg-green-700 text-white rounded-full p-3 mb-2">
-                                           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                           </svg>
-                                       </div>`;
-                            card.innerHTML = `
-                                ${icon}
-                                <span class="font-semibold">Quiz Taken</span>
-                                <span class="text-xs text-green-700 dark:text-green-200 mt-1">Your Score: ${data.score}</span>
-                            `;
-                            container.appendChild(card);
-                        } else {
-                            const card = document.createElement('a');
-                            card.setAttribute('href', `/module/${moduleId}/quiz`);
-                            card.className = 'flex flex-col items-center p-4 bg-blue-100 dark:bg-blue-900 rounded-xl shadow hover:scale-105 transition-transform cursor-pointer';
-                            const icon = `<div class="bg-blue-500 dark:bg-blue-700 text-white rounded-full p-3 mb-2">
-                                           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/>
-                                           </svg>
-                                       </div>`;
-                            card.innerHTML = `
-                                ${icon}
-                                <span class="font-semibold">Take the Quiz</span>
-                                <span class="text-xs text-blue-700 dark:text-blue-200 mt-1">Test your knowledge</span>
-                            `;
-                            container.appendChild(card);
-                        }
-                    } else {
-                        const msg = document.createElement('p');
-                        msg.className = 'text-gray-500 dark:text-gray-400 col-span-full text-center';
-                        msg.textContent = `No quiz available for this module.`;
-                        container.appendChild(msg);
-                    }
-                    return;
-                }
 
                 if (!items.length) {
                     const msg = document.createElement('p');
@@ -182,17 +133,12 @@
             }
 
             function updateContent(btn) {
-                const hasQuiz = btn.dataset.hasQuiz === '1';
-                const moduleId = btn.dataset.moduleId;
-                const quizTaken = btn.dataset.quizTaken === '1';
-                const score = btn.dataset.score;
                 const videosRaw  = btn.getAttribute('data-videos')  || '[]';
 
                 const videos  = parseMaybeJSON(videosRaw,  []);
 
                 const vItems = normalize(videos,  'Video');
 
-                renderCards(quizContainer,  { hasQuiz, quizTaken, score }, 'quiz', moduleId);
                 renderCards(videoContainer, vItems, 'video');
 
                 // Notify your flipbook/pdf script
