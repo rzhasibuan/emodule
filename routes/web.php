@@ -56,6 +56,13 @@ Route::prefix('admin')->middleware(['auth', 'level:1'])->group(function () {
     Route::get('/grading', [GradingController::class, 'index'])->name('grading.index');
     Route::get('/grading/{result}', [GradingController::class, 'show'])->name('grading.show');
     Route::post('/grading/{result}', [GradingController::class, 'store'])->name('grading.store');
+
+    Route::get('/essay-results', [QuizController::class, 'essayResults'])->name('admin.essay-results');
+    Route::get('/essay-results/{quizResult}/grade', [QuizController::class, 'gradeEssay'])->name('admin.essay-results.grade');
+    Route::post('/essay-results/{quizResult}/grade', [QuizController::class, 'storeEssayGrade'])->name('admin.essay-results.grade.store');
+    Route::get('/essay-grading', [\App\Http\Controllers\ModuleQuizController::class, 'adminEssayGrading'])->name('admin.essay-grading');
+    Route::get('/essay-grading/{quizResult}/grade', [\App\Http\Controllers\ModuleQuizController::class, 'adminEssayGradeForm'])->name('admin.essay-grading.grade');
+    Route::post('/essay-grading/{quizResult}/grade', [\App\Http\Controllers\ModuleQuizController::class, 'adminEssayGradeStore'])->name('admin.essay-grading.grade.store');
 });
 
 Route::middleware(['auth', 'level:2'])->group(function () {

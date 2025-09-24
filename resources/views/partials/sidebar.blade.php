@@ -11,7 +11,12 @@
             <li class=""><a class="nav-link" href="{{route("users")}}"><i class="fas fa-users"></i> <span>Users</span></a></li>
             <li class=""><a class="nav-link" href="{{route("modules.index")}}"><i class="fas fa-archive"></i> <span>Data module</span></a></li>
             <li class=""><a class="nav-link" href="{{route("quizzes.index")}}"><i class="fas fa-question-circle"></i> <span>Quizzes</span></a></li>
-            <li class=""><a class="nav-link" href="{{route("grading.index")}}"><i class="fas fa-check"></i> <span>Grade Essays</span></a></li>
+            {{-- <li class=""><a class="nav-link" href="{{route('admin.essay-results')}}"><i class="fas fa-clipboard-list"></i> <span>Penilaian Quiz Essay</span></a></li> --}}
+            <li class="">
+                <a class="nav-link" href="{{ route('admin.essay-grading') }}">
+                    <i class="fas fa-clipboard-check"></i> <span>Penilaian Essay</span>
+                </a>
+            </li>
         </ul>
     </aside>
   </div>
