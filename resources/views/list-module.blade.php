@@ -51,12 +51,6 @@
                 </div>
                 <div class="card-actions">
                     <a class="btn-primary" href="{{route('detail.module', $module->id)}}">Lihat Detail</a>
-                    @if($module->file)
-                        <a class="btn-secondary" href="{{ asset('storage/' . $module->file) }}" target="_blank">Lihat PDF</a>
-                    @endif
-                    @if(!empty($module->link_video))
-                        <button class="btn-secondary" onclick="alert('Video links: {{ implode(', ', $module->link_video) }}')">Lihat Video</button>
-                    @endif
                 </div>
             </div>
         </div>

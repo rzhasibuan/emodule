@@ -25,6 +25,22 @@ class WelcomeController extends Controller
         return view('home', ['module' => $modules]);
     }
 
+    public function old()
+    {
+        $modules = Module::with('quizzes')->orderBy('name')->get();
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            $results = QuizResult::where('user_id', $user->id_users)->get()->keyBy('module_id');
+            $modules->each(function ($module) use ($results) {
+                $module->quiz_taken = $results->has($module->id);
+                $module->score = $module->quiz_taken ? $results->get($module->id)->score : null;
+            });
+        }
+
+        return view('welcome', ['module' => $modules]);
+    }
+
     public function listModule()
     {
         $modules = Module::orderBy('name')->get();
@@ -37,5 +53,15 @@ class WelcomeController extends Controller
         $module = Module::findOrFail($id);
 
         return view("detail-module", compact('module'));
+    }
+
+    public function viewFlipbook($id)
+    {
+        $modules = Module::with('quizzes')
+            ->where('id', $id)
+            ->orderBy('name')->first();
+
+
+        return view('module-flipbook', compact('modules'));
     }
 }

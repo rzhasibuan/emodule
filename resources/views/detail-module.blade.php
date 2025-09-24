@@ -51,7 +51,7 @@
             @if($module->file)
             <div class="detail-line">
                 <span class="detail-label">File Modul:</span>
-                <span class="detail-value"><a href="{{ asset('storage/' . $module->file) }}" target="_blank" class="btn btn-sm btn-outline-primary">Lihat PDF</a></span>
+                <span class="detail-value"><a href="{{ route('module.flipbook', $module->id) }}" target="_blank" class="btn btn-sm btn-outline-primary">Lihat Flipbook</a></span>
             </div>
             @endif
 
@@ -60,12 +60,19 @@
 
     <!-- Bottom Section - Control Buttons -->
     <div class="bottom-section">
+
+        <button class="control-button" onclick="window.location.href='{{ asset('storage/' . $module->file) }}'">
+            <div class="button-icon">📥</div>
+            <div class="button-text">Perpose</div>
+        </button>
+
         @if($module->file)
-        <button class="control-button" onclick="window.open('{{ asset('storage/' . $module->file) }}', '_blank')">
-            <div class="button-icon">📚</div>
-            <div class="button-text">Lihat Modul</div>
+        <button class="control-button" onclick="window.location.href='{{ asset('storage/' . $module->file) }}'">
+            <div class="button-icon">📥</div>
+            <div class="button-text">Materi</div>
         </button>
         @endif
+
 
         @if($module->link_video && count($module->link_video) > 0)
             @foreach($module->link_video as $video)
@@ -83,17 +90,24 @@
         @endif
 
         @if($module->file)
+            <button class="control-button" onclick="window.open('{{ route('module.flipbook', $module->id) }}', '_blank')">
+                <div class="button-icon">📚</div>
+                <div class="button-text">Simulation</div>
+            </button>
+        @endif
+
+        @if($module->file)
         <button class="control-button" onclick="window.location.href='{{ asset('storage/' . $module->file) }}'">
             <div class="button-icon">📥</div>
-            <div class="button-text">Download Modul</div>
+            <div class="button-text">Evaluation</div>
         </button>
         @endif
+
     </div>
 </main>
 
 
 <script>
-    // No specific JS needed for dynamic content, basic button actions handled inline
 </script>
 </body>
 </html>

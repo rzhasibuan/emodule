@@ -30,5 +30,8 @@
 
 <!-- Improved Footer -->
 <x-footer/>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{asset("dflip/js/dflip.min.js")}}"></script>
+@stack('scripts')
 </body>
 </html>
