@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use App\Models\QuizResult;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +23,14 @@ class WelcomeController extends Controller
             });
         }
 
-        return view('home', ['module' => $modules]);
+        $settings = Setting::all()->keyBy('key');
+        return view('home', ['module' => $modules, 'settings' => $settings]);
+    }
+
+    public function about()
+    {
+        $settings = Setting::all()->keyBy('key');
+        return view('about', compact('settings'));
     }
 
     public function old()

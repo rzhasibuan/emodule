@@ -17,6 +17,7 @@
                     <i class="fas fa-clipboard-check"></i> <span>Penilaian Essay</span>
                 </a>
             </li>
+            <li class=""><a class="nav-link" href="{{route('admin.settings.index')}}"><i class="fas fa-cog"></i> <span>Website Settings</span></a></li>
         </ul>
     </aside>
   </div>

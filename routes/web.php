@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\GradingController;
+use App\Http\Controllers\Admin\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,9 @@ Route::prefix('admin')->middleware(['auth', 'level:1'])->group(function () {
     Route::get('/essay-grading', [\App\Http\Controllers\ModuleQuizController::class, 'adminEssayGrading'])->name('admin.essay-grading');
     Route::get('/essay-grading/{quizResult}/grade', [\App\Http\Controllers\ModuleQuizController::class, 'adminEssayGradeForm'])->name('admin.essay-grading.grade');
     Route::post('/essay-grading/{quizResult}/grade', [\App\Http\Controllers\ModuleQuizController::class, 'adminEssayGradeStore'])->name('admin.essay-grading.grade.store');
+
+    Route::get('/settings', [SettingController::class, 'index'])->name('admin.settings.index');
+    Route::post('/settings', [SettingController::class, 'update'])->name('admin.settings.update');
 });
 
 Route::middleware(['auth', 'level:2'])->group(function () {
@@ -79,4 +83,4 @@ Route::get('/quiz/{quiz}', [QuizController::class, 'start'])->name('quiz.start')
 Route::post('/quiz/{quiz}', [QuizController::class, 'submit'])->name('quiz.submit');
 
 Route::view('/how-to-use', 'how-to-use')->name('how-to-use');
-Route::view('/about', 'about')->name('about');
+Route::get('/about', [\App\Http\Controllers\WelcomeController::class, 'about'])->name('about');

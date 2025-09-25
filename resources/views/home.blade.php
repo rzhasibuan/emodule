@@ -8,14 +8,10 @@
     <main class="main-content">
         <div class="content-left">
             <h1>
-                Buat dan Pelajari<br>
-                Modul Ajar<br>
-                Berdiferensiasi <span class="highlight">lebih<br>
-                Menyenangkan</span>
+                {!! $settings['home_title']->value ?? '' !!}
             </h1>
             <p class="description">
-                Selamat datang di E-Modul. All in one platform pembuatan dan
-                pembelajaran modul ajar berdiferensiasi sekaligus.
+                {!! $settings['home_description']->value ?? '' !!}
             </p>
             <div class="cta-buttons">
                 <a href="{{route("listModule")}}" class="primary-btn" style="text-decoration: none">Lihat Modul Terbaru</a>
