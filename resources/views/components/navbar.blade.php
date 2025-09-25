@@ -17,7 +17,7 @@
                     </form>
                 </div>
             @else
-                <a href="{{route('login')}}" class="login-btn">Login</a>
+                <a href="{{route('login')}}" class="login-btn" style="text-decoration: none">Login</a>
             @endif
         </div>
     </nav>

@@ -80,12 +80,3 @@ Route::post('/quiz/{quiz}', [QuizController::class, 'submit'])->name('quiz.submi
 
 Route::view('/how-to-use', 'how-to-use')->name('how-to-use');
 Route::view('/about', 'about')->name('about');
-
-Route::prefix('guru')->middleware(['auth', 'level:3'])->group(function () {
-    Route::get('/', function() {
-        \Log::info('Guru login', ['user' => Auth::user()]);
-        return view('guru.dashboard');
-    })->name('guru.dashboard');
-    Route::get('/modules/create', [ModuleController::class, 'create'])->name('user.modules.create');
-    Route::post('/modules', [ModuleController::class, 'store'])->name('user.modules.store');
-});

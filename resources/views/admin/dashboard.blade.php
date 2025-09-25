@@ -74,7 +74,6 @@
                             <tr>
                                 <th>Name</th>
                                 <th>File</th>
-                                <th>Quiz Links</th>
                                 <th>Video Links</th>
                             </tr>
                         </thead>
@@ -88,32 +87,6 @@
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
-                                </td>
-                                <td>
-                                    @php
-                                        // $module->link_quiz may already be an array (from casts)
-                                        $quizRaw = $module->link_quiz;
-                                        $quizzes = is_string($quizRaw) ? json_decode($quizRaw, true) : ($quizRaw ?? []);
-                                    @endphp
-
-                                    @foreach($quizzes as $q)
-                                        @php
-                                            // Support either "string URL" or ["title" => ..., "url" => ...]
-                                            $href  = is_array($q) ? ($q['url'] ?? '') : $q;
-                                            $title = is_array($q) ? ($q['title'] ?? 'Quiz') : 'Quiz';
-
-                                            // Make external links absolute if they came without scheme
-                                            if ($href && !preg_match('#^[a-z][a-z0-9+.\-]*://#i', $href) && !\Illuminate\Support\Str::startsWith($href, ['//','/','#'])) {
-                                                $href = '//' . ltrim($href, '/');
-                                            }
-                                        @endphp
-
-                                        @if($href)
-                                            <a href="{{ $href }}" target="_blank" rel="noopener" class="badge badge-info mb-1">
-                                                {{ $title }}
-                                            </a>
-                                        @endif
-                                    @endforeach
                                 </td>
 
                                 <td>

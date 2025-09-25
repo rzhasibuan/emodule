@@ -14,7 +14,7 @@
                 <div>
                     <div class="text-center mb-4">
                         <h2 class="text-xl font-semibold">Nilai Pilihan Ganda</h2>
-                        <p class="text-3xl font-bold text-teal-600">{{ $quizResult->score }} / {{ collect(json_decode($quizResult->answers, true))->where('type', 'multiple_choice')->count() }}</p>
+                        <p class="text-3xl font-bold text-teal-600">{{ $quizResult->score }}</p>
                     </div>
                     <div class="space-y-4">
                         @foreach (json_decode($quizResult->answers, true) as $result)
@@ -36,9 +36,9 @@
                         <h2 class="text-xl font-semibold">Nilai Essay</h2>
                         <p class="text-3xl font-bold text-yellow-600">
                             @if($quizResult->score_essay !== null)
-                                {{ $quizResult->score_essay }} / {{ $essayAnswers->count() }}
+                                {{ $quizResult->score_essay }}
                             @else
-                                <span class="text-base">Belum dinilai</span>
+                                <span class="text-base">Tidak tersedia</span>
                             @endif
                         </p>
                     </div>

@@ -38,9 +38,13 @@
             <img alt="image" src="{{asset("assets/img/avatar/avatar-1.png")}}" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
-              <a href="{{route("logout")}}" class="dropdown-item has-icon text-danger">
-                <i class="fas fa-sign-out-alt"></i> Logout
-              </a>
+                <div class="dropdown-item has-icon text-danger">
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline; margin-top: 4px;">
+                        @csrf
+                        <button  style="padding: 10px; border: none; background-color: white">Logout</button>
+                    </form>
+                </div>
+
             </div>
           </li>
         </ul>

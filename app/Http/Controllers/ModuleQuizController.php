@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EssayAnswer;
 use App\Models\Module;
 use App\Models\QuizResult;
 use Illuminate\Http\Request;
@@ -12,6 +13,22 @@ class ModuleQuizController extends Controller
     public function start(Module $module)
     {
         $quizzes = $module->quizzes()->get();
+
+        // check if quiz have result
+        $existingResult = QuizResult::where('user_id', Auth::id())
+            ->where('module_id', $module->id)
+            ->first();
+
+
+        $existEssay = EssayAnswer::where('user_id', Auth::id())
+            ->where('module_id', $module->id)
+            ->first();
+
+
+        if ($existingResult || $existEssay) {
+            return redirect()->route('module.quiz.results', $existingResult ?? $existEssay->quizResult);
+        }
+
         return view('quiz.module_quiz', compact('module', 'quizzes'));
     }
 
