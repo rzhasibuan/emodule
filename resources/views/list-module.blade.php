@@ -47,10 +47,9 @@
                 <p class="card-description">{{ $module->description ?? 'Tidak ada deskripsi.' }}</p>
                 <div class="card-meta">
                     <span>👤 {{ $module->author ?? 'Anonim' }}</span>
-                    {{-- <span>⭐ 4.8 (124 review)</span> --}}{{-- Review score is not in DB --}}
                 </div>
                 <div class="card-actions">
-                    <a class="btn-primary" href="{{route('detail.module', $module->id)}}">Lihat Detail</a>
+                    <a class="btn-primary" href="{{route('detail.module', $module->id)}}" style="text-decoration: none">Lihat Detail</a>
                 </div>
             </div>
         </div>
@@ -69,6 +68,43 @@
 <x-footer/>
 
 <script>
+    // Mobile Menu Toggle Functionality
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    mobileMenuToggle.addEventListener('click', function() {
+        mobileMenuToggle.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            mobileMenuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const isClickInsideNav = mobileMenuToggle.contains(event.target) || mobileMenu.contains(event.target);
+
+        if (!isClickInsideNav && mobileMenu.classList.contains('active')) {
+            mobileMenuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 900) {
+            mobileMenuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        }
+    });
+
+
     // Filter functionality
     document.querySelectorAll('.filter-tab').forEach(tab => {
         tab.addEventListener('click', function() {

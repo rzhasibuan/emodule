@@ -61,7 +61,7 @@
     <!-- Bottom Section - Control Buttons -->
     <div class="bottom-section">
 
-        <button class="control-button" onclick="window.location.href='{{ asset('storage/' . $module->file) }}'">
+        <button class="control-button" onclick="window.location.href=''">
             <div class="button-icon">📥</div>
             <div class="button-text">Perpose</div>
         </button>
@@ -115,6 +115,82 @@
 
 
 <script>
+    // Mobile Menu Toggle Functionality
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    mobileMenuToggle.addEventListener('click', function() {
+        mobileMenuToggle.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            mobileMenuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const isClickInsideNav = mobileMenuToggle.contains(event.target) || mobileMenu.contains(event.target);
+
+        if (!isClickInsideNav && mobileMenu.classList.contains('active')) {
+            mobileMenuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 900) {
+            mobileMenuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        }
+    });
+
+    // Handle button actions
+    function handleAction(action) {
+        const actions = {
+            'modul': 'Membuka Modul Pembelajaran...',
+            'lkpd': 'Membuka Lembar Kerja Peserta Didik...',
+            'bahan': 'Membuka Bahan Ajar...',
+            'observasi': 'Membuka Form Observasi...',
+            'download': 'Memulai Download...'
+        };
+
+        alert(actions[action] || 'Aksi tidak dikenal');
+
+        // Add visual feedback
+        const button = event.target.closest('.control-button');
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            button.style.transform = '';
+        }, 150);
+    }
+
+    // Add interactive ball effect
+    const ball = document.querySelector('.ball-3d');
+    if (ball) {
+        ball.addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => {
+                this.style.animation = 'float 1s ease-in-out 3';
+            }, 100);
+        });
+
+        // Add hover effect to visual area
+        const visualArea = document.querySelector('.visual-area');
+        visualArea.addEventListener('mouseenter', function() {
+            ball.style.transform = 'scale(1.1)';
+        });
+
+        visualArea.addEventListener('mouseleave', function() {
+            ball.style.transform = 'scale(1)';
+        });
+    }
 </script>
 </body>
 </html>

@@ -30,6 +30,44 @@
 <x-footer/>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{asset("dflip/js/dflip.min.js")}}"></script>
+<script>
+    // Mobile Menu Toggle Functionality
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    mobileMenuToggle.addEventListener('click', function() {
+        mobileMenuToggle.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            mobileMenuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const isClickInsideNav = mobileMenuToggle.contains(event.target) || mobileMenu.contains(event.target);
+
+        if (!isClickInsideNav && mobileMenu.classList.contains('active')) {
+        mobileMenuToggle.classList.remove('active');
+        mobileMenu.classList.remove('active');
+    }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 900) {
+        mobileMenuToggle.classList.remove('active');
+        mobileMenu.classList.remove('active');
+    }
+    });
+
+</script>
 @stack('scripts')
 </body>
 </html>
